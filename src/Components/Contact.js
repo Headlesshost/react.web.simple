@@ -21,7 +21,7 @@ export default function Contact({ section }) {
   }
 
   const onSubmit = async (values) => {
-    const hhEndpoint = `${process.env.REACT_APP_HH_URL}/sites/${process.env.REACT_APP_SITE_ID}/contact`;
+    const hhEndpoint = `https://api.headlesshost.com/sites/${process.env.REACT_APP_HH_SITE_ID}/contact`;
     await postData(hhEndpoint, values);
   };
 
