@@ -49,12 +49,7 @@ function App() {
     if (!site) {
       fetchSite()
         .then((resp) => {
-          const { version } = resp;
-          if (version) {
-            setSite(resp);
-          } else {
-            console.log("Invalid content: " + resp);
-          }
+          setSite(resp);
         })
         .catch((e) => {
           console.log(e);
