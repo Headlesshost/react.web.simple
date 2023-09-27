@@ -39,7 +39,7 @@ export default function Guide() {
 
   return sections.map((s) => {
     return (
-      <div style={{ borderBottom: "3px dashed #ccc" }}>
+      <div style={{ borderBottom: "3px dashed #ccc" }} key={s.id}>
         <Sections sections={[s]} />
       </div>
     );

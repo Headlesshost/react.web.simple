@@ -7,13 +7,21 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import Guide from "./Components/Guide";
 import Preloader from "./Components/Preloader";
 
-const socket = io.connect("https://api.headlesshost.com");
-const hhEndpoint = `https://api.headlesshost.com/sites/${process.env.REACT_APP_HH_SITE_ID}${process.env.REACT_APP_IS_PROD === "true" ? "" : "/draft"}`;
+const isProd = process.env.REACT_APP_IS_PROD === "true";
+const socket = !isProd && io.connect("https://api.headlesshost.com");
+
+function useQuery() {
+  const { search } = useLocation();
+  return React.useMemo(() => new URLSearchParams(search), [search]);
+}
 
 function App() {
   const [site, setSite] = React.useState();
   const location = useLocation();
   const pageIdentifier = location.pathname.substring(1);
+  const query = useQuery();
+  const siteInstance = isProd ? "" : query.get("instanceId") ? "/instance/" + query.get("instanceId") : "/draft";
+  const hhEndpoint = `https://api.headlesshost.com/sites/${process.env.REACT_APP_HH_SITE_ID}${siteInstance}`;
 
   //Reload the site data after content updates
   useEffect(() => {
@@ -26,7 +34,7 @@ function App() {
         console.log(error);
       }
     });
-  }, []);
+  }, [hhEndpoint]);
 
   //Scroll to the top when the page changes
   useEffect(() => {
@@ -55,7 +63,7 @@ function App() {
           console.log(e);
         });
     }
-  }, [site]);
+  }, [hhEndpoint, site]);
 
   if (!site) return <Preloader />;
 

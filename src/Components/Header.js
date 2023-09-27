@@ -19,11 +19,11 @@ export default function Header({ viewModel, activePage = "home" }) {
               {links.map((l) => {
                 const { submenu = [] } = l;
                 return submenu.length > 0 ? (
-                  <li class="nav-item dropdown">
-                    <button class="btn btn-dark dropdown-toggle nav-link me-2 px-2" data-bs-toggle="dropdown" aria-expanded="false">
+                  <li className="nav-item dropdown" key={l.identifier}>
+                    <button className="btn btn-dark dropdown-toggle nav-link me-2 px-2" data-bs-toggle="dropdown" aria-expanded="false">
                       {l.title}
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-dark mt-2">
+                    <ul className="dropdown-menu dropdown-menu-dark mt-2">
                       {submenu.map((s) => (
                         <li key={s.identifier}>
                           <Link to={`/${s.identifier}`} className={`nav-link ${s.identifier === activePage ? "active" : ""}`}>
