@@ -18,7 +18,7 @@ export default function Carousel({ section }) {
           const pos = textIndx >= TextPos.length ? 0 : textIndx++;
           const { background, slug } = i;
           return (
-            <div className={`carousel-item ${x === 0 ? "active" : ""}`} key={i.id} style={{ backgroundImage: background ? `url(${background.url})` : "none", backgroundSize: "cover" }}>
+            <div className={`carousel-item ${x === 0 ? "active" : ""}`} key={i.title} style={{ backgroundImage: background ? `url(${background.url})` : "none", backgroundSize: "cover" }}>
               {!background && (
                 <svg className="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
                   <rect width="100%" height="100%" fill="#777" />
