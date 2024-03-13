@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
 import Preloader from "./Preloader";
 import Sections from "./Sections";
-
-const hhEndpoint = `https://api.headlesshost.com/sites/${process.env.REACT_APP_HH_SITE_ID}/guide`;
+import { useGuideEndpoint } from "../_utils";
 
 export default function Guide() {
   const [site, setSite] = React.useState();
-
+  const hhEndpoint = useGuideEndpoint();
   useEffect(() => {
     async function fetchSite() {
       try {
@@ -19,29 +18,35 @@ export default function Guide() {
     if (!site) {
       fetchSite()
         .then((resp) => {
-          const { id } = resp;
-          if (id) {
-            setSite(resp);
-          } else {
-            console.log("Invalid content: " + resp);
-          }
+          setSite(resp);
         })
         .catch((e) => {
           console.log(e);
         });
     }
-  }, [site]);
+  }, [hhEndpoint, site]);
 
-  if (!site) return <Preloader />;
+  if (!site) {
+    return <Preloader />;
+  }
 
   const { content = {} } = site;
   const { sections = [] } = content;
 
-  return sections.map((s) => {
-    return (
-      <div style={{ borderBottom: "3px dashed #ccc" }} key={s.id}>
-        <Sections sections={[s]} />
+  return (
+    <div className="mt-5 pt-5">
+      <div className="ms-2">
+        <h2>{site.name}</h2>
+        <p>{site.notes}</p>
       </div>
-    );
-  });
+      {sections.map((s) => (
+        <div style={{ borderBottom: "3px dashed #ccc", padding: "20px 0 20px 0" }} key={s.id}>
+          <div style={{ paddingLeft: "20px", fontWeight: "bold" }}>
+            <small>{s.title}</small>
+          </div>
+          <Sections sections={[s]} />
+        </div>
+      ))}
+    </div>
+  );
 }

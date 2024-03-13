@@ -6,18 +6,19 @@ import io from "socket.io-client";
 import { Routes, Route, useLocation } from "react-router-dom";
 import Guide from "./Components/Guide";
 import Preloader from "./Components/Preloader";
+import { useSiteEndpoint } from "./_utils";
 
-const socket = io.connect("https://api.headlesshost.com");
-const hhEndpoint = `https://api.headlesshost.com/sites/${process.env.REACT_APP_HH_SITE_ID}${process.env.REACT_APP_IS_PROD === "true" ? "" : "/draft"}`;
+const socket = io.connect(process.env.REACT_APP_HH_URL);
 
 function App() {
   const [site, setSite] = React.useState();
   const location = useLocation();
   const pageIdentifier = location.pathname.substring(1);
+  const hhEndpoint = useSiteEndpoint();
 
   //Reload the site data after content updates
   useEffect(() => {
-    socket.on(process.env.REACT_APP_HH_SITE_ID, async () => {
+    socket.on(process.env.REACT_APP_SITE_ID, async () => {
       try {
         const res = await fetch(hhEndpoint);
         const updatedSite = await res.json();
@@ -26,7 +27,7 @@ function App() {
         console.log(error);
       }
     });
-  }, []);
+  }, [hhEndpoint]);
 
   //Scroll to the top when the page changes
   useEffect(() => {
@@ -49,13 +50,13 @@ function App() {
     if (!site) {
       fetchSite()
         .then((resp) => {
-           setSite(resp);
+          setSite(resp);
         })
         .catch((e) => {
           console.log(e);
         });
     }
-  }, [site]);
+  }, [hhEndpoint, site]);
 
   if (!site) return <Preloader />;
 
