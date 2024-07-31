@@ -18,7 +18,8 @@ function App() {
 
   //Reload the site data after content updates
   useEffect(() => {
-    socket.on(process.env.REACT_APP_SITE_ID, async () => {
+    const contentSiteId = process.env.REACT_APP_SITE_ID;
+    const onSiteUpdated = async () => {
       try {
         const res = await fetch(hhEndpoint);
         const updatedSite = await res.json();
@@ -26,7 +27,14 @@ function App() {
       } catch (error) {
         console.log(error);
       }
-    });
+    };
+
+    socket.emit("ContentSite-Join", contentSiteId);
+    socket.on("StageUpdated", onSiteUpdated);
+    return () => {
+      socket.emit("ContentSite-Leave", contentSiteId);
+      socket.off(contentSiteId, onSiteUpdated);
+    };
   }, [hhEndpoint]);
 
   //Scroll to the top when the page changes
