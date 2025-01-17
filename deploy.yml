@@ -3,7 +3,7 @@ name: Deploy to AWS S3 and CloudFront
 on:
   push:
     branches:
-      - master # Deploy to Prod
+      - main # Deploy to Prod
       - develop # Deploy to Stage
 
 jobs:
@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     # Dynamically assign the environment based on the branch
-    environment: ${{ github.ref_name == 'master' && 'Prod' || 'Stage' }}
+    environment: ${{ github.ref_name == 'main' && 'Prod' || 'Stage' }}
 
     steps:
       - name: Checkout Code
