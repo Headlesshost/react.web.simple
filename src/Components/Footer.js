@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 export default function Footer({ viewModel }) {
-  const { links = [], title } = viewModel;
+  const { links = [], title } = viewModel?.content || {};
   return (
     <footer className="footer mt-auto py-3 bg-light border-top">
       <div className="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 ">

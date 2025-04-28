@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function Textblock({ section }) {
-  const { title, paragraph } = section;
+  const { title, paragraph } = section?.content || {};
 
   return (
     <div className="container pb-6 pb-md-8">

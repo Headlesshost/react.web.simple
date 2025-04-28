@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function BlockImage({ section }) {
-  const { title, image } = section;
+  const { title, image } = section?.content || {};
   return (
     <div className="container mt-4">
       <div>

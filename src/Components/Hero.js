@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function Hero({ section }) {
-  const { title, paragraph } = section;
+  const { title, paragraph } = section?.content || {};
   return (
     <div className="container">
       <div className="px-4 py-5 my-5 text-center">

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const TextPos = ["text-start", "", "text-end"];
 
 export default function Carousel({ section }) {
-  const { items = [] } = section;
+  const { items = [] } = section?.content || {};
   let textIndx = 0;
   return (
     <div id="myCarousel" className="carousel slide" data-bs-ride="carousel">

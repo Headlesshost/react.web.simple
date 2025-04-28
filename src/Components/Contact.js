@@ -2,7 +2,7 @@ import React from "react";
 import { Form, Field } from "react-final-form";
 
 export default function Contact({ section }) {
-  const { title, description } = section;
+  const { title, description } = section?.content || {};
 
   async function postData(url = "", data = {}) {
     const response = await fetch(url, {
