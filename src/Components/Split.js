@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 export default function Split({ section }) {
-  const { title, paragraph, leftAlign, buttonText, buttonSlug, image } = section;
+  const { title, paragraph, leftAlign, buttonText, buttonSlug, image } = section?.content || {};
   return (
     <div className="container col-xxl-8 px-4 py-5">
       <div className={`row ${!leftAlign ? "flex-lg-row-reverse" : ""} align-items-center g-5 py-5`}>
